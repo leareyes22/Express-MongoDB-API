@@ -1,15 +1,17 @@
 import express from 'express'
-import bandsRoutes from './routes/bands/bands'
+import cors from 'cors'
+import bandsRoutes from './routes/bands/bandRoutes'
+import dotenv from 'dotenv'
+
+dotenv.config({ path: './config.env' })
+
+require('./db/mongo')
 
 const app = express()
+app.use(cors())
 app.use(express.json()) // Middleware that transforms req.body into a json file.
 
-const PORT = 3001
-
-app.get('/ping', (_req, res) => {
-  console.log('someone pinged here!!')
-  res.send('<h1><u>Rock bands festival API rest.</u></h1>')
-})
+const PORT = process.env.PORT != null ? process.env.PORT : 3001
 
 app.use('/api/bands', bandsRoutes)
 
