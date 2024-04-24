@@ -3,7 +3,7 @@ import cors from 'cors'
 import bandsRoutes from './routes/bands/bandRoutes'
 import dotenv from 'dotenv'
 
-dotenv.config({ path: './config.env' })
+dotenv.config({ path: './.env/config.env' })
 
 require('./db/mongo')
 
