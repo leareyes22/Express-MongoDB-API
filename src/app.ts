@@ -15,6 +15,13 @@ const PORT = process.env.PORT != null ? process.env.PORT : 3001
 
 app.use('/api/bands', bandsRoutes)
 
+app.all('*', (req, res, _next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server.`,
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server Started at Port: ${PORT}`)
 })
