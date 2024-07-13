@@ -18,3 +18,5 @@ app.use('/api/bands', bandsRoutes)
 app.listen(PORT, () => {
   console.log(`Server Started at Port: ${PORT}`)
 })
+
+export default app
