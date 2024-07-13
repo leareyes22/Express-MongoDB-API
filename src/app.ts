@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import bandsRoutes from './routes/bands/bandRoutes'
 import dotenv from 'dotenv'
+import AppError from './utils/appError'
+import { globalErrorHandler } from './controllers/errorController'
 
 dotenv.config({ path: './.env/config.env' })
 
@@ -15,12 +17,13 @@ const PORT = process.env.PORT != null ? process.env.PORT : 3001
 
 app.use('/api/bands', bandsRoutes)
 
-app.all('*', (req, res, _next) => {
-  res.status(404).json({
-    status: 'fail',
-    message: `Can't find ${req.originalUrl} on this server.`,
-  })
+app.all('*', (req, _res, next) => {
+  const err = new AppError(`Can't find ${req.originalUrl} on this server.`, 404)
+
+  next(err)
 })
+
+app.use(globalErrorHandler)
 
 app.listen(PORT, () => {
   console.log(`Server Started at Port: ${PORT}`)
