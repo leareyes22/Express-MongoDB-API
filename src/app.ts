@@ -25,8 +25,15 @@ app.all('*', (req, _res, next) => {
 
 app.use(globalErrorHandler)
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server Started at Port: ${PORT}`)
+})
+
+process.on('unhandledRejection', (err: Error) => {
+  console.log(err, err.message)
+  server.close(() => {
+    process.exit(1)
+  })
 })
 
 export default app
