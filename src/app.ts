@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
-import bandsRoutes from './routes/bands/bandRoutes'
+import bandsRoutes from './routes/bandRoutes'
+import userRoutes from './routes/userRoutes'
 import dotenv from 'dotenv'
 import AppError from './utils/appError'
 import { globalErrorHandler } from './controllers/errorController'
@@ -15,6 +16,7 @@ app.use(express.json()) // Middleware that transforms req.body into a json file.
 
 const PORT = process.env.PORT != null ? process.env.PORT : 3001
 
+app.use('/api/users', userRoutes)
 app.use('/api/bands', bandsRoutes)
 
 app.all('*', (req, _res, next) => {

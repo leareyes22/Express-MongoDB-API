@@ -13,7 +13,6 @@ const getBands = async (req: any, res: any): Promise<any> => {
     // Query filtering
     if (req.query.sort !== null && req.query.sort !== undefined) {
       const sortBy = req.query.sort.split(',').join(' ')
-      console.log(sortBy)
       query = query.sort(sortBy)
     } else {
       query = query.sort('-originYear')
