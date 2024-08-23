@@ -13,6 +13,11 @@ const userSchema = new Schema({
     unique: [true, 'User email address must be unique.'],
   },
   pictureURL: String,
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user',
+  },
   password: {
     type: String,
     required: [true, 'A user must have a password.'],

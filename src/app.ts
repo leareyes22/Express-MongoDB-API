@@ -5,12 +5,31 @@ import userRoutes from './routes/userRoutes'
 import dotenv from 'dotenv'
 import AppError from './utils/appError'
 import { globalErrorHandler } from './controllers/errorController'
+import rateLimit from 'express-rate-limit'
+import mongoSanitize from 'express-mongo-sanitize'
+import xssAdvanced from 'xss-advanced'
 
 dotenv.config({ path: './.env/config.env' })
 
 require('./db/mongo')
 
 const app = express()
+
+// Rate limiter for HTTP requests.
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP, please try again in an hour.',
+})
+app.use('/api', limiter)
+
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize())
+
+// Data sanitization against XSS
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+app.use(xssAdvanced())
+
 app.use(cors())
 app.use(express.json()) // Middleware that transforms req.body into a json file.
 
