@@ -1,10 +1,12 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+import path from 'path'
 require('../models/bandModel')
 
+dotenv.config({ path: path.resolve(__dirname, '../.env', 'config.env') })
+
 const connectionString =
-  process.env.DB_STRING != null
-    ? process.env.DB_STRING
-    : 'mongodb+srv://leareyes22:LeandroNR22@cluster0.lqoohjw.mongodb.net/?retryWrites=true&w=majority'
+  process.env.DB_STRING != null ? process.env.DB_STRING : ''
 
 // Connection to mongodb
 mongoose
